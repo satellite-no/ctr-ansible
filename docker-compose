@@ -1,0 +1,18 @@
+FROM rockylinux:latest
+
+WORKDIR /opt
+
+RUN dnf -y upgrade; \
+    dnf install -y gcc libffi-devel epel-release wget make curl openssl-devel bzip2-devel zlib-devel; \
+    dnf clean all; \
+    wget https://www.python.org/ftp/python/3.10.0/Python-3.10.0.tgz; \
+    tar -xvf Python-3.10.0.tgz; \
+    cd Python-3.10.0; \
+    ./configure --enable-optimizations; \
+    make -j 2; \
+    nproc; \
+    make install; \
+    cd ..;\
+    rm -rf Python*; \
+    pip3 install --upgrade pip; \
+    python3 -m pip install ansible
